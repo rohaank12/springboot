@@ -2,7 +2,7 @@ pipeline {
  agent none
  parameters {
      string(name: 'ECRURL', defaultValue: '001647536300.dkr.ecr.ap-south-1.amazonaws.com', description: 'Please Enter your Docker ECR REGISTRY URL without https?')
-    string(name: 'APPREPO', defaultValue: 'wezvatechbackend', description: 'Please Enter your Docker App Repo Name:TAG?')
+    string(name: 'APPREPO', defaultValue: 'codifybackend', description: 'Please Enter your Docker App Repo Name:TAG?')
     string(name: 'REGION', defaultValue: 'ap-south-1', description: 'Please Enter your AWS Region?') 
     password(name: 'PASSWD', defaultValue: '', description: 'Please Enter your Gitlab password')
     booleanParam(name: 'deploybuild', defaultValue: false, description: 'Trigger Deployment ?')
@@ -14,7 +14,7 @@ pipeline {
     {
       agent { label 'demo' }
       steps {
-        git branch: 'newfeature', credentialsId: 'GitlabCred', url: 'https://gitlab.com/wezvaprojects/buildpipeline/backend/springboot.git'
+        git branch: 'newfeature', credentialsId: 'GitlabCred', url: 'https://gitlab.com/rohaank12/springboot.git'
       }
      } 
 
@@ -24,7 +24,7 @@ pipeline {
       steps {
             echo "Building Sprint Boot Jar ..."
             sh "mvn clean package -Dmaven.test.skip=true"
-            sh "cp target/wezvatech-springboot-mysql-9739110917.jar target/backend_fb${BUILD_ID}.jar"
+            sh "cp target/codify-springboot-mysql-9739110917.jar target/backend_fb${BUILD_ID}.jar"
        }
     }
     
@@ -78,7 +78,7 @@ pipeline {
        steps {
         script {
        /* Define the Artifactory Server details */
-            def server = Artifactory.server 'wezvatechjfrog'
+            def server = Artifactory.server 'codifyjfrog'
             def uploadSpec = """{
                 "files": [{
                 "pattern": "target/backend_fb${BUILD_ID}.jar",
@@ -132,11 +132,11 @@ pipeline {
     {
        agent { label 'kind' }
        steps {
-           git branch: 'newfeature', credentialsId: 'GitlabCred', url: 'https://gitlab.com/wezvaprojects/buildpipeline/backend/springboot.git'
+           git branch: 'newfeature', credentialsId: 'GitlabCred', url: 'https://github/rohaank12/buildpipeline/backend/springboot.git'
       
            echo "Preparing KIND cluster ..."
-           sh "kind create cluster --name wezvatechdemo --config=kind.yml"
-           sh "kubectl create namespace wezvatechfb"
+           sh "kind create cluster --name codifydemo --config=kind.yml"
+           sh "kubectl create namespace codifyfb"
           withAWS(credentials:'AWSCred') {
 	            sh "kubectl create secret docker-registry awsecr-cred  --docker-server=$ECRURL  --docker-username=AWS --docker-password=\$(aws ecr get-login-password)  --namespace=wezvatechfb"
 	        }
@@ -154,11 +154,11 @@ pipeline {
     {
        agent { label 'kind' }
        steps {
-              sh "kubectl wait --for=condition=ready pod/`kubectl get pods -n wezvatechfb |grep wezva |awk '{print \$1}'| tail -1` -n wezvatechfb  --timeout=300s"
+              sh "kubectl wait --for=condition=ready pod/`kubectl get pods -n codifyfb |grep codify |awk '{print \$1}'| tail -1` -n codifyfb  --timeout=300s"
               sh  "echo Springboot deployed successfully ..."
 
               echo "Deleting test cluster ..."
-	          sh "kind delete clusters wezvatechdemo"
+	          sh "kind delete clusters codifydemo"
        }
      }
 
