@@ -82,7 +82,7 @@ pipeline {
             def uploadSpec = """{
                 "files": [{
                 "pattern": "target/backend_fb${BUILD_ID}.jar",
-                "target": "wezvatech_backend"
+                "target": "codify_backend"
                 }]
             }"""
 
@@ -136,9 +136,9 @@ pipeline {
       
            echo "Preparing KIND cluster ..."
            sh "kind create cluster --name codifydemo --config=kind.yml"
-           sh "kubectl create namespace codifyfb"
+           sh "kubectl create namespace codifyssfb"
           withAWS(credentials:'AWSCred') {
-	            sh "kubectl create secret docker-registry awsecr-cred  --docker-server=$ECRURL  --docker-username=AWS --docker-password=\$(aws ecr get-login-password)  --namespace=wezvatechfb"
+	            sh "kubectl create secret docker-registry awsecr-cred  --docker-server=$ECRURL  --docker-username=AWS --docker-password=\$(aws ecr get-login-password)  --namespace=codifyssfb"
 	        }
  
 
