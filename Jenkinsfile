@@ -24,7 +24,7 @@ pipeline {
       steps {
             echo "Building Sprint Boot Jar ..."
             sh "mvn clean package -Dmaven.test.skip=true"
-            sh "cp target/codify-springboot-mysql-9739110917.jar target/backend_fb${BUILD_ID}.jar"
+            sh "cp target/codify-springboot-mysql.jar target/backend_fb${BUILD_ID}.jar"
        }
     }
     
