@@ -1,9 +1,9 @@
-FROM openjdk:17-jdk-alpine
-RUN addgroup -S wezvatech && adduser -S wezvatech -G wezvatech && mkdir -p /opt/wezva
-WORKDIR /opt/wezva
-COPY target/wezvatech-springboot-mysql-9739110917.jar app.jar
+FROM openjdk:21-jdk-alpine
+RUN addgroup -S codify && adduser -S codify -G codify && mkdir -p /opt/codify
+WORKDIR /opt/codify
+COPY target/codifyss-springboot.jar app.jar
 COPY startup.sh startup.sh
-RUN chown -R wezvatech:wezvatech /opt/wezva 
-USER wezvatech
+RUN chown -R codify:codify /opt/codify 
+USER codify
 EXPOSE 8080
 ENTRYPOINT ["./startup.sh"]
