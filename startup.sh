@@ -7,6 +7,6 @@ echo "Setting the configuration file application to start .."
 cat /opt/wezva/application.properties.orig > application.properties
 cat /vault/secrets/databaseenv.txt >> application.properties
 
-echo "Starting Wezvatech Springboot application ..."
+echo "Starting Codify Springboot application ..."
 echo "command: java -jar app.jar $@"
 exec java -jar app.jar "$@"
