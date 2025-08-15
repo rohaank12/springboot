@@ -154,7 +154,7 @@ pipeline {
     {
        agent { label 'kind' }
        steps {
-              sh "kubectl wait --for=condition=ready pod/`kubectl get pods -n codifyfb |grep codify |awk '{print \$1}'| tail -1` -n codifyfb  --timeout=300s"
+              sh "kubectl wait --for=condition=ready pod/`kubectl get pods -n codifyssfb |grep codify |awk '{print \$1}'| tail -1` -n codifyssfb  --timeout=300s"
               sh  "echo Springboot deployed successfully ..."
 
               echo "Deleting test cluster ..."
