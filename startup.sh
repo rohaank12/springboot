@@ -4,7 +4,7 @@
 
 set -e 
 echo "Setting the configuration file application to start .."
-cat /opt/wezva/application.properties.orig > application.properties
+cat /opt/codify/application.properties.orig > application.properties
 cat /vault/secrets/databaseenv.txt >> application.properties
 
 echo "Starting Codify Springboot application ..."
