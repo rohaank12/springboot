@@ -7,7 +7,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 
-# Install Java 8, Java 17 & Docker
+# Install Java 21 & Docker
 apt update
 apt install -y openjdk-21-jdk docker.io maven
 usermod -a -G docker ubuntu
